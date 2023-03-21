@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
+    //Main
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\u001B[40mEnter the type of the backend tree of the dictionary : " + "\u001B[0m");
