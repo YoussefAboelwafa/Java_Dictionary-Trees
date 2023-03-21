@@ -60,9 +60,9 @@ class Dictionary {
                 }
             }
             myReader.close();
-            System.out.print("(" + Inserted + ")" + "\u001B[32m words SUCCEFULLY INSERTED ✅\n\u001B[0m");
+            System.out.print("(" + Inserted + ")" + "\u001B[32m word(s) SUCCEFULLY INSERTED ✅\n\u001B[0m");
             if (notInserted != 0) {
-                System.out.print("(" + notInserted + ")" + "\u001B[31m words ALREADY EXIST \n\u001B[0m");
+                System.out.print("(" + notInserted + ")" + "\u001B[31m word(s) ALREADY EXIST \n\u001B[0m");
             }
 
         } catch (FileNotFoundException e) {
@@ -86,9 +86,9 @@ class Dictionary {
                 }
             }
             myReader.close();
-            System.out.print("(" + Found + ")" + "\u001B[32m words SUCCEFULLY DELETED ✅\n\u001B[0m");
+            System.out.print("(" + Found + ")" + "\u001B[32m word(s) SUCCEFULLY DELETED ✅\n\u001B[0m");
             if (notFOUND != 0) {
-                System.out.print("(" + notFOUND + ")" + "\u001B[31m words NOT FOUND \n\u001B[0m");
+                System.out.print("(" + notFOUND + ")" + "\u001B[31m word(s) NOT FOUND \n\u001B[0m❌");
             }
         } catch (FileNotFoundException e) {
             System.out.println("\u001B[31mAn ERROR occurred opening file\u001B[0m ");
