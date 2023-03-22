@@ -107,4 +107,20 @@ public class Junit <T extends Comparable<T>> {
         d2.batch_insert("test10.txt");
         assertEquals(test10_size,d2.getSize());
     }
+    @Test
+    public void search_avl_time(){
+        d1.batch_insert("test10.txt");
+        long start1 = System.nanoTime();
+        System.out.println(d1.search("nonatomic"));
+        long end1 = System.nanoTime();
+        System.out.println("Time taken to search in AVL tree = "+(end1-start1)+" nanoseconds");
+    }
+    @Test
+    public void search_rb_time(){
+        d2.batch_insert("test10.txt");
+        long start2 = System.nanoTime();
+        System.out.println(d2.search("nonatomic"));
+        long end2 = System.nanoTime();
+        System.out.println("Time taken to search in RED BLACK tree = "+(end2-start2)+" nanoseconds");
+    }
 }
