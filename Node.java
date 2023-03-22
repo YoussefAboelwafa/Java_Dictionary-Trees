@@ -1,11 +1,17 @@
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import lombok.NonNull;
 
 import java.awt.*;
 
 @Data
+@AllArgsConstructor
+
 public class Node<T extends Comparable<T>> {
-    @NonNull
+    public Node (T data){
+        this.data=data;
+    }
     private T data;
     private int height = 1;
 

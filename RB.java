@@ -1,54 +1,72 @@
 import java.awt.*;
 
-public class RB<T extends Comparable<T>> implements Tree<T> {
+import static java.awt.Color.BLACK;
+import static java.awt.Color.RED;
+
+public class RB <T extends Comparable<T>> implements Tree<T> {
+    private int size = 0;
+    private class NulNode<T extends Comparable<T>> extends Node<T> {
+        public NulNode() {
+            super(null);
+            setColor(BLACK);
+        }
+    }
     private Node<T> root;
-private int size=0;
     @Override
     public Tree insert(T data) {
         Node<T> node = new Node<>(data);
-        root = insert(root, node);
+        node.setColor(RED);
         size++;
+        root= insert(root, node);
         recolorAndRotate(node);
         return this;
     }
 
     private void recolorAndRotate(Node<T> node) {
-        Node<T> parent = node.getParent();
-        if (node != root && parent.getColor() == Color.RED) {
-            Node<T> grandParent = parent.getParent();
-            Node<T> uncle = grandParent.getLeft() == parent ? grandParent.getRight() : grandParent.getLeft();
-            if (uncle != null && uncle.getColor() == Color.RED) {
-                parent.flipColor();
-                uncle.flipColor();
-                grandParent.flipColor();
-                recolorAndRotate(grandParent);
-            } else if (parent.isLeftChild()) {
-                handleLeftCase(node, parent, grandParent);
-            } else if (!parent.isLeftChild()) {
-                handleRightCase(node, parent, grandParent);
-            }
+        Node<T> parent = node.getParent(), grandParent;
+        if (parent == null) {
+            node.setColor(BLACK);
+            return;
         }
-        root.setColor(Color.BLACK);
+        if (parent.getColor() == BLACK) {
+            return;
+        }
+        grandParent = parent.getParent();
+        if (grandParent == null) {
+            parent.setColor(BLACK);
+            return;
+        }
+        Node<T> uncle = grandParent.getLeft() == parent ? grandParent.getRight() : grandParent.getLeft();
+        if (uncle != null && uncle.getColor() == RED) {
+            parent.flipColor();
+            uncle.flipColor();
+            grandParent.flipColor();
+            recolorAndRotate(grandParent);
+        }
+        else if(parent.isLeftChild()){
+            handleLeftCase(node, parent, grandParent);
+        }
+        else if (!parent.isLeftChild()){
+            handleRightCase(node, parent, grandParent);
+        }
     }
 
     private void handleLeftCase(Node<T> node, Node<T> parent, Node<T> grandParent) {
-        if (!node.isLeftChild()) {
+        if(!node.isLeftChild()){
             rotateLeft(parent);
         }
         rotateRight(grandParent);
         parent.flipColor();
         grandParent.flipColor();
-        recolorAndRotate(node.isLeftChild() ? parent : grandParent);
     }
 
     private void handleRightCase(Node<T> node, Node<T> parent, Node<T> grandParent) {
-        if (node.isLeftChild()) {
+        if(node.isLeftChild()){
             rotateRight(parent);
         }
         rotateLeft(grandParent);
         parent.flipColor();
         grandParent.flipColor();
-        recolorAndRotate(node.isLeftChild() ? grandParent : parent);
 
     }
 
@@ -78,141 +96,168 @@ private int size=0;
     }
 
     private void updateChild(Node<T> node, Node<T> leftChild) {
-        if (node.getParent() == null) {
+        if(node.getParent()==null){
             root = leftChild;
-        } else if (node.isLeftChild()) {
+        }
+        else if(node.isLeftChild()){
             node.getParent().setLeft(leftChild);
-        } else {
+        }
+        else {
             node.getParent().setRight(leftChild);
+        }
+        if (leftChild!=null){
+            leftChild.setParent(node.getParent());
         }
     }
 
 
-    private Node<T> insert(Node<T> node, Node<T> isertedNode) {
+    private Node<T> insert(Node<T> node, Node<T> isertedNode){
         if (node == null) {
             return isertedNode;
         }
         if (isertedNode.getData().compareTo(node.getData()) < 0) {
             node.setLeft(insert(node.getLeft(), isertedNode));
             node.getLeft().setParent(node);
-        } else {
+        } else if (isertedNode.getData().compareTo(node.getData()) > 0){
             node.setRight(insert(node.getRight(), isertedNode));
             node.getRight().setParent(node);
         }
-        updateHeight(node);
+        else {
+            size--;
+            return node;
+        }
         return node;
     }
 
     @Override
     public void delete(T data) {
-        root = delete(data, root);
-        size--;
-        recolorAndRotateafterdelete(root);
-    }
-
-    private void recolorAndRotateafterdelete(Node<T> root) {
-        if (root == null) {
+        Node<T> node =root,replaced;
+        Color color;
+        while (node!=null && node.getData().compareTo(data)!=0){
+            if (data.compareTo(node.getData())<0){
+                node = node.getLeft();
+            }
+            else {
+                node = node.getRight();
+            }
+        }
+        if (node==null){
             return;
         }
-        if (root.getLeft() != null && root.getLeft().getColor() == Color.RED) {
-            root.getLeft().flipColor();
+        size--;
+        if (node.getLeft()==null || node.getRight()==null){
+            replaced = deleteNode(node);
+            color = node.getColor();
         }
-        if (root.getRight() != null && root.getRight().getColor() == Color.RED) {
-            root.getRight().flipColor();
+        else {
+            Node<T> successor = getMin(node.getRight());
+            node.setData(successor.getData());
+            replaced = deleteNode(successor);
+            color = successor.getColor();
         }
-        if (root.getRight() != null && root.getRight().getColor() == Color.RED && root.getRight().getRight() != null && root.getRight().getRight().getColor() == Color.RED) {
-            rotateLeft(root);
-            root.flipColor();
-            root.getLeft().flipColor();
-        }
-        if (root.getLeft() != null && root.getLeft().getColor() == Color.RED && root.getLeft().getLeft() != null && root.getLeft().getLeft().getColor() == Color.RED) {
-            rotateRight(root);
-            root.flipColor();
-            root.getRight().flipColor();
-        }
-        if (root.getLeft() != null && root.getLeft().getColor() == Color.RED && root.getRight() != null && root.getRight().getColor() == Color.RED) {
-            root.flipColor();
-            root.getLeft().flipColor();
-            root.getRight().flipColor();
-        }
-        recolorAndRotateafterdelete(root.getLeft());
-        recolorAndRotateafterdelete(root.getRight());
-    }
 
-    private Node<T> delete(T data, Node<T> node) {
-        if (node == null) {
-            return null;
-        }
-        if (data.compareTo(node.getData()) < 0) {
-            node.setLeft(delete(data, node.getLeft()));
-        } else if (data.compareTo(node.getData()) > 0) {
-            node.setRight(delete(data, node.getRight()));
-        } else {
-            if (node.getLeft() == null) {
-                return node.getRight();
-            } else if (node.getRight() == null) {
-                return node.getLeft();
+        if (color== BLACK){
+            fixDoubleBlack(replaced);
+            if(replaced.getClass()==NulNode.class){
+                updateChild(replaced, null);
             }
-            node.setData(getMax(node.getLeft()));
-            node.setLeft(delete(node.getData(), node.getLeft()));
         }
-        updateHeight(node);
-        return node;
+
+
     }
 
-    private T getMax(Node<T> left) {
-        if (left.getRight() == null) {
-            return left.getData();
+    private void fixDoubleBlack(Node<T> replaced) {
+        if(replaced==root){
+            return;
         }
-        return getMax(left.getRight());
-    }
-    private void updateHeight(Node<T> node) {
-        node.setHeight(Math.max(height(node.getLeft()), height(node.getRight())) + 1);
-    }
-    private int height(Node<T> node) {
-        if (node == null) {
-            return 0;
+        if(replaced.getParent()==null||replaced.getParent().getRight()==null||replaced.getParent().getLeft()==null){replaced=root; return;}
+        Node<T> sibling = replaced.isLeftChild()? replaced.getParent().getRight() : replaced.getParent().getLeft();
+        if (sibling.getColor()== RED){
+            replaced.getParent().flipColor();
+            sibling.flipColor();
+            if (sibling.isLeftChild()){
+                rotateLeft(replaced.getParent());
+            }
+            else {
+                rotateRight(replaced.getParent());
+            }
+            if(replaced.getParent()==null||replaced.getParent().getRight()==null||replaced.getParent().getLeft()==null){replaced=root; return;}
+
+            sibling = replaced.isLeftChild()? replaced.getParent().getRight() : replaced.getParent().getLeft();
         }
-        return node.getHeight();
+        if((sibling.getLeft()==null||sibling.getLeft().getColor()== BLACK)&&(sibling.getRight()==null||sibling.getRight().getColor()== BLACK)){
+            sibling.setColor(RED);
+            if (replaced.getParent().getColor()== RED){
+                replaced.getParent().setColor(BLACK);
+            }
+            else {
+                fixDoubleBlack(replaced.getParent());
+            }
+        }
+        else {
+            if(replaced.isLeftChild() && (sibling.getRight()==null||sibling.getRight().getColor()==BLACK)){
+                sibling.getLeft().setColor(BLACK);
+                sibling.flipColor();
+                rotateRight(sibling);
+                sibling = replaced.getParent().getRight();
+            }
+            else if(!replaced.isLeftChild() && (sibling.getLeft()==null||sibling.getLeft().getColor()== BLACK)){
+                sibling.getRight().setColor(BLACK);
+                sibling.flipColor();
+                rotateLeft(sibling);
+                sibling = replaced.getParent().getLeft();
+            }
+            sibling.setColor(replaced.getParent().getColor());
+            replaced.getParent().setColor(BLACK);
+            if (replaced.isLeftChild()){
+                sibling.getRight().setColor(BLACK);
+                rotateLeft(replaced.getParent());
+            }
+            else {
+                sibling.getLeft().setColor(BLACK);
+                rotateRight(replaced.getParent());
+            }
+        }
+
     }
+
+    Node deleteNode(Node node){
+        if(node.getLeft()!=null){
+            updateChild(node, node.getLeft());
+            return node.getLeft();
+        }
+        else if(node.getRight()!=null){
+            updateChild(node, node.getRight());
+            return node.getRight();
+        }
+        else {
+            Node <T> nulNode = node.getColor()== BLACK?new NulNode():null;
+            updateChild(node, nulNode);
+            return nulNode;
+        }
+    }
+    private Node getMin(Node right) {
+        if (right.getLeft()==null){
+            return right;
+        }
+        return getMin(right.getLeft());
+    }
+
 
     @Override
     public void traverse() {
         if (root == null) {
             return;
         }
-        System.out.println("inorder traversal");
         inOrderTraversal(root);
-        System.out.println("preoder traversal");
-        preOrderTraversal(root);
-        System.out.println("postorder traversal");
-        postOrderTraversal(root);
     }
-
-    void inOrderTraversal(Node<T> node) {
-        if (node != null) {
+    void inOrderTraversal(Node<T> node){
+        if (node!=null){
             inOrderTraversal(node.getLeft());
             System.out.println(node.getData());
             inOrderTraversal(node.getRight());
         }
     }
-    void preOrderTraversal(Node<T> node){
-        if (node!=null){
-            System.out.println(node.getData());
-            preOrderTraversal(node.getLeft());
-            preOrderTraversal(node.getRight());
-        }
-
-    }
-    void postOrderTraversal(Node<T> node){
-        if (node!=null){
-            postOrderTraversal(node.getLeft());
-            postOrderTraversal(node.getRight());
-            System.out.println(node.getData());
-        }
-
-    }
-
 
     @Override
     public T getMin() {
@@ -259,8 +304,10 @@ private int size=0;
 
     @Override
     public int getSize() {
+
         return size;
     }
+
 
     @Override
     public int getHeight() {

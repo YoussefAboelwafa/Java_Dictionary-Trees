@@ -3,8 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 class Dictionary {
-    Tree d;
-    int size = 0;
+    Tree<String> d;
 
     Dictionary(int type) {
         if (type == 1) {
@@ -20,17 +19,16 @@ class Dictionary {
         } else {
             d.insert(toInsert);
             System.out.print("(" + toInsert + ")" + "\u001B[32m Succefully inserted ✅\n\u001B[0m");
-            size++;
         }
     }
 
     public void delete(String toDelete) {
         if (!d.contains(toDelete)) {
-            System.out.print("(" + toDelete + ")" + "\u001B[31mword NOT FOUND\n\u001B[0m");
+            System.out.print("(" + toDelete + ")" + "\u001B[31m NOT FOUND ❌\n\u001B[0m");
         } else {
             d.delete(toDelete);
             System.out.print("(" + toDelete + ")" + "\u001B[32m Succefully DELETED ✅\n\u001B[0m");
-            size--;
+
         }
     }
 
@@ -38,7 +36,7 @@ class Dictionary {
         if (d.contains(toSearch)) {
             System.out.println("\u001B[32mWord FOUND\u001B[0m ✅");
         } else {
-            System.out.println("\u001B[31mWord NOT FOUND\u001B[0m ❌");
+            System.out.println("\u001B[31m NOT FOUND\u001B[0m ❌");
         }
         return d.contains(toSearch);
     }
@@ -56,7 +54,6 @@ class Dictionary {
                 } else {
                     d.insert(data);
                     Inserted++;
-                    size++;
                 }
             }
             myReader.close();
@@ -88,7 +85,7 @@ class Dictionary {
             myReader.close();
             System.out.print("(" + Found + ")" + "\u001B[32m word(s) SUCCEFULLY DELETED ✅\n\u001B[0m");
             if (notFOUND != 0) {
-                System.out.print("(" + notFOUND + ")" + "\u001B[31m word(s) NOT FOUND \n\u001B[0m❌");
+                System.out.print("(" + notFOUND + ")" + "\u001B[31m word(s) NOT FOUND ❌\n\u001B[0m");
             }
         } catch (FileNotFoundException e) {
             System.out.println("\u001B[31mAn ERROR occurred opening file\u001B[0m ");
@@ -105,12 +102,11 @@ class Dictionary {
 
     public int getSize() {
 
-        return size;
+        return d.getSize();
     }
 
-    // TODO
     public int getHeight() {
-        return getHeight();
+        return d.getHeight();
     }
 
 }

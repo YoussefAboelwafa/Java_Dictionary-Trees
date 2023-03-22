@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -94,11 +95,11 @@ public class Main {
                     System.out.println("\u001B[34mDictionary size = " + "(\u001B[0m" + d.getSize() + "\u001B[34m)\u001B[0m");
                 }
 
-                //HEIGHT Todo
+                //HEIGHT
                 else if (option == 8) {
                     System.out.println("\u001B[34mDictionary tree height = " + "(\u001B[0m" + d.getHeight() + "\u001B[34m)\u001B[0m");
                 }
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 System.out.print("\u001B[31mError,Please choose a right option\n\u001B[0m");
             }
         }
