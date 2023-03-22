@@ -57,35 +57,35 @@ public class Main {
 
                 //INSERT WORD
                 else if (option == 2) {
-                    System.out.print("Enter the word to insert>>");
+                    System.out.print("Enter the word to insert >> ");
                     String toInsert = scanner.next();
                     d.insert(toInsert);
                 }
 
                 //BATCH INSERT
                 else if (option == 3) {
-                    System.out.print("Enter the path of the file to insert>>");
+                    System.out.print("Enter the path of the file to insert >> ");
                     String fileToInsert = scanner.next();
                     d.batch_insert(fileToInsert);
                 }
 
                 //DELETE WORD
                 else if (option == 4) {
-                    System.out.print("Enter the word to delete>>");
+                    System.out.print("Enter the word to delete >> ");
                     String toDelete = scanner.next();
                     d.delete(toDelete);
                 }
 
                 //BATCH DELETE
                 else if (option == 5) {
-                    System.out.print("Enter the path of the file to delete>>");
+                    System.out.print("Enter the path of the file to delete >> ");
                     String fileToDelete = scanner.next();
                     d.batch_delete(fileToDelete);
                 }
 
                 //SEARCH
                 else if (option == 6) {
-                    System.out.print("Enter the word to search>>");
+                    System.out.print("Enter the word to search >> ");
                     String toSearch = scanner.next();
                     d.search(toSearch);
                 }

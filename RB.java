@@ -245,11 +245,12 @@ public class RB <T extends Comparable<T>> implements Tree<T> {
 
 
     @Override
-    public void traverse() {
+    public Object traverse() {
         if (root == null) {
-            return;
+            return null;
         }
         inOrderTraversal(root);
+        return null;
     }
     void inOrderTraversal(Node<T> node){
         if (node!=null){

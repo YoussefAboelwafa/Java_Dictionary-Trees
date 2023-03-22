@@ -118,11 +118,12 @@ public class AVL <T extends Comparable <T> > implements Tree<T> {
     }
 
     @Override
-    public void traverse() {
+    public Object traverse() {
         if (root == null) {
-            return;
+            return null;
         }
         inOrderTraversal(root);
+        return null;
     }
     private void inOrderTraversal(Node<T> node){
         if (node!=null){
