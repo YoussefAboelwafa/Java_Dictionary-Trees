@@ -1,7 +1,7 @@
 public interface Tree<T extends Comparable <T> > {
-    Tree<T> insert(T data);
-    void delete(T data);
-    Object traverse();
+    boolean insert(T data);
+    boolean delete(T data);
+    void traverse();
     T getMin();
     T getMax();
     boolean contains(T data);

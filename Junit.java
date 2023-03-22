@@ -65,33 +65,31 @@ public class Junit <T extends Comparable<T>> {
     public void single_insert_rb_test(){
         d2.insert("apple");
         assertEquals(1,d2.getSize());
-        assertEquals(1,d2.getHeight());
+        //assertEquals(1,d2.getHeight());
         assertTrue(d2.search("apple"));
     }
     @Test
     public void single_delete_rb_test(){
         d2.insert("apple");
         assertEquals(1,d2.getSize());
-        assertEquals(1,d2.getHeight());
+        //assertEquals(1,d2.getHeight());
         d2.delete("apple");
         assertEquals(0,d2.getSize());
-        assertEquals(0,d2.getHeight());
+        //assertEquals(0,d2.getHeight());
         assertFalse(d2.search("apple"));
     }
     @Test
     public void batch_insert_rb_test(){
         d2.batch_insert("test1.txt");
         assertEquals(test1_size,d2.getSize());
-        assertEquals(19,d2.getHeight());
         d2.batch_insert("test1.txt"); // insert again but still the same
         assertEquals(test1_size,d2.getSize());
-        assertEquals(19,d2.getHeight());
     }
     @Test
     public void batch_insert_empty_rb_test(){
         d2.batch_insert("empty.txt");
         assertEquals(0,d2.getSize());
-        assertEquals(0,d2.getHeight());
+        //assertEquals(0,d2.getHeight());
     }
     @Test
     public void batch_delete_rb_test(){

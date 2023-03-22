@@ -14,21 +14,18 @@ class Dictionary {
     }
 
     public void insert(String toInsert) {
-        if (d.contains(toInsert)) {
+        if (!d.insert(toInsert)) {
             System.out.print("(" + toInsert + ")" + "\u001B[31mAlready EXIST\n\u001B[0m");
         } else {
-            d.insert(toInsert);
             System.out.print("(" + toInsert + ")" + "\u001B[32m Succefully inserted ✅\n\u001B[0m");
         }
     }
 
     public void delete(String toDelete) {
-        if (!d.contains(toDelete)) {
+        if (!d.delete(toDelete)) {
             System.out.print("(" + toDelete + ")" + "\u001B[31m NOT FOUND ❌\n\u001B[0m");
         } else {
-            d.delete(toDelete);
             System.out.print("(" + toDelete + ")" + "\u001B[32m Succefully DELETED ✅\n\u001B[0m");
-
         }
     }
 
