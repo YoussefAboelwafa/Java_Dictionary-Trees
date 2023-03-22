@@ -1,18 +1,24 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class Junit<T extends Comparable<T>> {
+public class Junit <T extends Comparable<T>> {
     Dictionary d1 = new Dictionary(1); // AVL
     Dictionary d2 = new Dictionary(2); // Red black
+    int test1_size=84402;
+    int test2_size=10000;
+    int test10_size=466472;
+
+    // AVL TESTS
+
     @Test
-     public void single_insert_test(){
+     public void single_insert_avl_test(){
         d1.insert("apple");
         assertEquals(1,d1.getSize());
         assertEquals(1,d1.getHeight());
         assertTrue(d1.search("apple"));
     }
     @Test
-    public void single_delete_test(){
+    public void single_delete_avl_test(){
         d1.insert("apple");
         assertEquals(1,d1.getSize());
         assertEquals(1,d1.getHeight());
@@ -22,22 +28,22 @@ public class Junit<T extends Comparable<T>> {
         assertFalse(d1.search("apple"));
     }
     @Test
-    public void batch_insert_test(){
+    public void batch_insert_avl_test(){
         d1.batch_insert("test1.txt");
-        assertEquals(84402,d1.getSize());
+        assertEquals(test1_size,d1.getSize());
         assertEquals(19,d1.getHeight());
         d1.batch_insert("test1.txt"); // insert again but still the same
-        assertEquals(84402,d1.getSize());
+        assertEquals(test1_size,d1.getSize());
         assertEquals(19,d1.getHeight());
     }
     @Test
-    public void batch_insert_empty_test(){
+    public void batch_insert_empty_avl_test(){
         d1.batch_insert("empty.txt");
         assertEquals(0,d1.getSize());
         assertEquals(0,d1.getHeight());
     }
     @Test
-    public void batch_delete_test(){
+    public void batch_delete_avl_test(){
         d1.batch_insert("test1.txt");
         d1.batch_delete("test1.txt");
         assertEquals(0,d1.getSize());
@@ -45,5 +51,60 @@ public class Junit<T extends Comparable<T>> {
         d1.batch_delete("test2.txt");
         assertEquals(0,d1.getSize());
     }
+    @Test
+    public void insert_bigdata_avl_test(){
+        d1.batch_insert("test10.txt");
+        assertEquals(test10_size,d1.getSize());
+    }
 
+
+
+    // RED BLACK TESTS
+
+    @Test
+    public void single_insert_rb_test(){
+        d2.insert("apple");
+        assertEquals(1,d2.getSize());
+        assertEquals(1,d2.getHeight());
+        assertTrue(d2.search("apple"));
+    }
+    @Test
+    public void single_delete_rb_test(){
+        d2.insert("apple");
+        assertEquals(1,d2.getSize());
+        assertEquals(1,d2.getHeight());
+        d2.delete("apple");
+        assertEquals(0,d2.getSize());
+        assertEquals(0,d2.getHeight());
+        assertFalse(d2.search("apple"));
+    }
+    @Test
+    public void batch_insert_rb_test(){
+        d2.batch_insert("test1.txt");
+        assertEquals(test1_size,d2.getSize());
+        assertEquals(19,d2.getHeight());
+        d2.batch_insert("test1.txt"); // insert again but still the same
+        assertEquals(test1_size,d2.getSize());
+        assertEquals(19,d2.getHeight());
+    }
+    @Test
+    public void batch_insert_empty_rb_test(){
+        d2.batch_insert("empty.txt");
+        assertEquals(0,d2.getSize());
+        assertEquals(0,d2.getHeight());
+    }
+    @Test
+    public void batch_delete_rb_test(){
+        d2.batch_insert("test1.txt");
+        d2.batch_delete("test1.txt");
+        assertEquals(0,d2.getSize());
+        d2.batch_insert("test2.txt");
+        d2.batch_delete("test2.txt");
+        assertEquals(0,d2.getSize());
+    }
+    @Test
+    public void insert_bigdata_rb_test(){
+        d2.batch_insert("test10.txt");
+        assertEquals(test10_size,d2.getSize());
+    }
 }
