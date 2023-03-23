@@ -121,11 +121,12 @@ public class Junit<T extends Comparable<T>> {
     @Test
     public void operations_time() {
         long start1 = System.nanoTime();
-        d2.batch_insert("test10.txt");
+        d2.batch_insert("test1.txt");
         long end1 = System.nanoTime();
 
         long start2 = System.nanoTime();
-        d2.search("nonatomic");
+        d2.search("nonatomical");
+        d2.search("alreadyexist");
         long end2 = System.nanoTime();
 
         long start3 = System.nanoTime();
@@ -133,11 +134,12 @@ public class Junit<T extends Comparable<T>> {
         long end3 = System.nanoTime();
 
         long start4 = System.nanoTime();
-        d1.batch_insert("test10.txt");
+        d1.batch_insert("test1.txt");
         long end4 = System.nanoTime();
 
         long start5 = System.nanoTime();
-        d1.search("nonatomic");
+        d1.search("nonatomical");
+        d1.search("alreadyexist");
         long end5 = System.nanoTime();
 
         long start6 = System.nanoTime();
