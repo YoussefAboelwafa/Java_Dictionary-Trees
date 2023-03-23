@@ -126,6 +126,7 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
             return;
         }
         inOrderTraversal(root);
+
     }
 
     private void inOrderTraversal(Node<T> node) {

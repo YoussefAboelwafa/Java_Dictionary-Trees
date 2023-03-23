@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import static javax.swing.Spring.height;
 
@@ -10,6 +12,7 @@ public class RB<T extends Comparable<T>> implements Tree {
     // Root initialized to nil.
     private RB_Node<T> nil = new RB_Node<T>();
     private RB_Node<T> root = nil;
+
 
     public RB() {
         root.left = nil;
@@ -697,7 +700,7 @@ public class RB<T extends Comparable<T>> implements Tree {
 
     // @param: node, the RB_Node we must check to see whether it's nil
     // @return: return's true of node is nil and false otherwise
-    private boolean isNil(RB_Node node) {
+    public boolean isNil(RB_Node node) {
 
         // return appropriate value
         return node == nil;
@@ -726,7 +729,7 @@ public class RB<T extends Comparable<T>> implements Tree {
     }
 
     private void inOrderTraversal(RB_Node<T> node) {
-        if (node != null) {
+        if (node != nil) {
             inOrderTraversal(node.left);
             System.out.println(node.key);
             inOrderTraversal(node.right);
@@ -768,10 +771,38 @@ public class RB<T extends Comparable<T>> implements Tree {
         return root.numLeft + root.numRight + 1;
     }// end size()
 
-    // TODO: 3/23/23  
+
     
     @Override 
     public int getHeight() {
-        return 0;
+
+        if (root == nil) {
+            return 0;
+        }
+        Queue<RB_Node<T>> queue = new LinkedList<>();
+        queue.add(root);
+        int height = 0;
+        while (true) {
+            int nodeCount = queue.size();
+            if (nodeCount == 0) {
+                return height;
+            }
+            height++;
+            while (nodeCount > 0) {
+                RB_Node<T> node = queue.remove();
+                if (node.left != nil) {
+                    queue.add(node.left);
+                }
+                if (node.right != nil) {
+                    queue.add(node.right);
+                }
+                nodeCount--;
+            }
+        }
+    }
+
+
+    public RB_Node<T> getRoot() {
+        return root;
     }
 }

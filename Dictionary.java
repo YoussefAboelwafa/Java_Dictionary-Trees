@@ -31,9 +31,9 @@ class Dictionary {
 
     public Boolean search(String toSearch) {
         if (d.contains(toSearch)) {
-            System.out.println("\u001B[32mWord FOUND\u001B[0m ✅");
+            System.out.println("(" + toSearch + ")" + "\u001B[32m FOUND\u001B[0m ✅");
         } else {
-            System.out.println("\u001B[31m NOT FOUND\u001B[0m ❌");
+            System.out.println("(" + toSearch + ")" + "\u001B[31m NOT FOUND\u001B[0m ❌");
         }
         return d.contains(toSearch);
     }
