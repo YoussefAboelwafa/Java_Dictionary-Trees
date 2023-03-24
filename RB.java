@@ -1,10 +1,5 @@
-
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-
-import static javax.swing.Spring.height;
 
 // Class Definitions
 public class RB<T extends Comparable<T>> implements Tree {
@@ -12,7 +7,6 @@ public class RB<T extends Comparable<T>> implements Tree {
     // Root initialized to nil.
     private RB_Node<T> nil = new RB_Node<T>();
     private RB_Node<T> root = nil;
-
 
     public RB() {
         root.left = nil;
@@ -358,7 +352,7 @@ public class RB<T extends Comparable<T>> implements Tree {
     public boolean remove(RB_Node<T> v) {
 
         RB_Node<T> z = search(v.key);
-        if (z == null) {
+        if (z == nil) {
             return false;
         }
 
@@ -601,106 +595,31 @@ public class RB<T extends Comparable<T>> implements Tree {
         }
 
         // we have not found a node whose key is "key"
-        return null;
+        return nil;
 
 
     }// end search(int key)
 
     // @param: key, any Comparable object
     // @return: return's the number of elements greater than key
-    public int numGreater(T key) {
-
-        // Call findNumGreater(root, key) which will return the number
-        // of nodes whose key is greater than key
-        return findNumGreater(root, key);
-
-    }// end numGreater(int key)
 
 
-    // @param: key, any Comparable object
-    // @return: return's teh number of elements smaller than key
-    public int numSmaller(T key) {
-
-        // Call findNumSmaller(root,key) which will return
-        // the number of nodes whose key is greater than key
-        return findNumSmaller(root, key);
-
-    }// end numSmaller(int key)
 
 
-    // @param: node, the root of the tree, the key who we must
-    // compare other node key's to.
-    // @return: the number of nodes greater than key.
-    public int findNumGreater(RB_Node<T> node, T key) {
-
-        // Base Case: if node is nil, return 0
-        if (isNil(node))
-            return 0;
-            // If key is less than node.key, all elements right of node are
-            // greater than key, add this to our total and look to the left
-        else if (key.compareTo(node.key) < 0)
-            return 1 + node.numRight + findNumGreater(node.left, key);
-
-            // If key is greater than node.key, then look to the right as
-            // all elements to the left of node are smaller than key
-        else
-            return findNumGreater(node.right, key);
-
-    }// end findNumGreater(RB_Node, int key)
-
-    /**
-     * Returns sorted list of keys greater than key.  Size of list
-     * will not exceed maxReturned
-     *
-     * @param key         Key to search for
-     * @param maxReturned Maximum number of results to return
-     * @return List of keys greater than key.  List may not exceed maxReturned
-     */
-    public List<T> getGreaterThan(T key, Integer maxReturned) {
-        List<T> list = new ArrayList<T>();
-        getGreaterThan(root, key, list);
-        return list.subList(0, Math.min(maxReturned, list.size()));
-    }
 
 
-    private void getGreaterThan(RB_Node<T> node, T key,
-                                List<T> list) {
-        if (isNil(node)) {
-            return;
-        } else if (node.key.compareTo(key) > 0) {
-            getGreaterThan(node.left, key, list);
-            list.add(node.key);
-            getGreaterThan(node.right, key, list);
-        } else {
-            getGreaterThan(node.right, key, list);
-        }
-    }
+
+
 
     // @param: node, the root of the tree, the key who we must compare other
     // node key's to.
     // @return: the number of nodes smaller than key.
-    public int findNumSmaller(RB_Node<T> node, T key) {
 
-        // Base Case: if node is nil, return 0
-        if (isNil(node)) return 0;
-
-            // If key is less than node.key, look to the left as all
-            // elements on the right of node are greater than key
-        else if (key.compareTo(node.key) <= 0)
-            return findNumSmaller(node.left, key);
-
-            // If key is larger than node.key, all elements to the left of
-            // node are smaller than key, add this to our total and look
-            // to the right.
-        else
-            return 1 + node.numLeft + findNumSmaller(node.right, key);
-
-    }// end findNumSmaller(RB_Node nod, int key)
 
 
     // @param: node, the RB_Node we must check to see whether it's nil
     // @return: return's true of node is nil and false otherwise
-    public boolean isNil(RB_Node node) {
+    private boolean isNil(RB_Node node) {
 
         // return appropriate value
         return node == nil;
@@ -720,7 +639,7 @@ public class RB<T extends Comparable<T>> implements Tree {
 
     @Override
     public void traverse() {
-        if (root == null) {
+        if (root == nil) {
             return;
         }
         inOrderTraversal(root);
@@ -750,7 +669,7 @@ public class RB<T extends Comparable<T>> implements Tree {
     @Override
     public boolean contains(Comparable data) {
         RB_Node<T> node = search((T) data);
-        if (node == null) {
+        if (node == nil) {
             return false;
         }
         return true;
@@ -758,7 +677,7 @@ public class RB<T extends Comparable<T>> implements Tree {
 
     @Override
     public boolean isEmpty() {
-        return root == null;
+        return root == nil;
     }
 
     // @return: return's the size of the tree
@@ -771,15 +690,14 @@ public class RB<T extends Comparable<T>> implements Tree {
         return root.numLeft + root.numRight + 1;
     }// end size()
 
-
+    // TODO: 3/23/23  
     
     @Override 
     public int getHeight() {
-
         if (root == nil) {
             return 0;
         }
-        Queue<RB_Node<T>> queue = new LinkedList<>();
+        Queue<RB_Node> queue = new LinkedList<>();
         queue.add(root);
         int height = 0;
         while (true) {
@@ -799,10 +717,5 @@ public class RB<T extends Comparable<T>> implements Tree {
                 nodeCount--;
             }
         }
-    }
-
-
-    public RB_Node<T> getRoot() {
-        return root;
     }
 }

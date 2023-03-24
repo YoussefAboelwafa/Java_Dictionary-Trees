@@ -9,12 +9,16 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
     private boolean inserted = true;
     private boolean deleted = false;
 
+    private int size=0;
+
     public Node<T> getRoot() {
         return root;
     }
 
     @Override
     public boolean insert(T data) {
+        size++;
+        inserted=true;
         root = insert(data, root);
         return inserted;
     }
@@ -29,6 +33,7 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
             node.setRight(insert(data, node.getRight()));
         } else {
             inserted = false;
+            size--;
         }
         updateHeight(node);
         return balance(node);
@@ -87,20 +92,27 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public boolean delete(T data) {
+
+        deleted=false;
         root = remove(data, root);
         return deleted;
     }
 
     private Node<T> remove(T data, Node<T> node) {
         if (node == null) {
+
             return null;
+
         }
         if (data.compareTo(node.getData()) < 0) {
             node.setLeft(remove(data, node.getLeft()));
         } else if (data.compareTo(node.getData()) > 0) {
             node.setRight(remove(data, node.getRight()));
         } else {
-            deleted = true;
+            if(data.compareTo(node.getData()) == 0){
+                deleted=true;
+                size--;
+            }
             if (node.getLeft() == null) {
                 return node.getRight();
             } else if (node.getRight() == null) {
@@ -126,7 +138,6 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
             return;
         }
         inOrderTraversal(root);
-
     }
 
     private void inOrderTraversal(Node<T> node) {
@@ -183,20 +194,8 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
         if (root == null) {
             return 0;
         }
-        Queue<Node<T>> queue = new LinkedList<>();
-        queue.add(root);
-        int size = 0;
-        while (!queue.isEmpty()) {
-            Node<T> node = queue.remove();
-            size++;
-            if (node.getLeft() != null) {
-                queue.add(node.getLeft());
-            }
-            if (node.getRight() != null) {
-                queue.add(node.getRight());
-            }
-        }
-        return size;
+      return size;
+
     }
 
     @Override
@@ -204,25 +203,6 @@ public class AVL<T extends Comparable<T>> implements Tree<T> {
         if (root == null) {
             return 0;
         }
-        Queue<Node<T>> queue = new LinkedList<>();
-        queue.add(root);
-        int height = 0;
-        while (true) {
-            int nodeCount = queue.size();
-            if (nodeCount == 0) {
-                return height;
-            }
-            height++;
-            while (nodeCount > 0) {
-                Node<T> node = queue.remove();
-                if (node.getLeft() != null) {
-                    queue.add(node.getLeft());
-                }
-                if (node.getRight() != null) {
-                    queue.add(node.getRight());
-                }
-                nodeCount--;
-            }
-        }
+        return root.getHeight();
     }
 }

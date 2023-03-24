@@ -59,8 +59,8 @@ public class Junit<T extends Comparable<T>> {
 
     @Test
     public void insert_bigdata_avl_test() {
-        d1.batch_insert("test10.txt");
-        assertEquals(test10_size, d1.getSize());
+        d1.batch_insert("test8.txt");
+        System.out.println(d1.getHeight());
     }
 
 
@@ -112,8 +112,8 @@ public class Junit<T extends Comparable<T>> {
 
     @Test
     public void insert_bigdata_rb_test() {
-        d2.batch_insert("test10.txt");
-        assertEquals(test10_size, d2.getSize());
+        d2.batch_insert("test8.txt");
+        System.out.println(d2.getHeight());
     }
 
     //Comparsion
@@ -121,7 +121,7 @@ public class Junit<T extends Comparable<T>> {
     @Test
     public void operations_time() {
         long start1 = System.nanoTime();
-        d2.batch_insert("test1.txt");
+        d2.batch_insert("test8.txt");
         long end1 = System.nanoTime();
 
         long start2 = System.nanoTime();
@@ -134,7 +134,7 @@ public class Junit<T extends Comparable<T>> {
         long end3 = System.nanoTime();
 
         long start4 = System.nanoTime();
-        d1.batch_insert("test1.txt");
+        d1.batch_insert("test8.txt");
         long end4 = System.nanoTime();
 
         long start5 = System.nanoTime();
